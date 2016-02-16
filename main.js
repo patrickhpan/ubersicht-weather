@@ -1,25 +1,26 @@
 var data = {
   forecast: [
     {
-      high: 104,
+      high: 51,
       low: 32,
-      precip: 23
-    },
-    {
-      high: 46,
-      low: 25,
       precip: 0
     },
     {
-      high: 37,
-      low: 19,
-      precip: 100
+      high: 44,
+      low: 29,
+      precip: 23
+    },
+    {
+      high: 39,
+      low: 24,
+      precip: 65
     }
   ]
 }
-var sortedTemps = data.forecast.sort((a, b) => b.high - a.high);
-var maxTemp = sortedTemps[0].high;
-var minTemp = sortedTemps[sortedTemps.length-1].high;
+var sortedHighs = data.forecast.sort((a, b) => b.high - a.high);
+var maxTemp = sortedHighs[0].high;
+var sortedLows = data.forecast.sort((a, b) => a.lows - b.lows);
+var minTemp = sortedLows[0].low;
 var sortedPrecips = data.forecast.sort((a, b) => b.precip - a.precip);
 
 var svg = d3.select("#chart")
@@ -37,7 +38,7 @@ var tempToHeight = temp => MINTHEIGHT + (temp - minTemp) / (maxTemp - minTemp) *
 var precipToHeight = precip => precip / 100 * MAXPHEIGHT;
 
 
-svg.selectAll("rect.temp")
+svg.selectAll("rect.high")
   .data(data.forecast)
   .enter()
   .append("rect")
