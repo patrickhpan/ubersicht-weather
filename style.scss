@@ -1,6 +1,8 @@
 $rainy: #43ABD4;
 $sunny: #FFEAAD;
 $cloudy: #E1E1E1;
+
+$temp: #FFFFFF;
 $precip: #D0F0FF;
 
 @mixin caps($sz, $spacing: 4px) {
@@ -10,7 +12,26 @@ $precip: #D0F0FF;
   font-size: $sz;
   text-transform: uppercase;
   text-align: center;
+}
 
+rect.temp {
+  fill: $temp;
+}
+rect.precip {
+  fill: $precip;
+}
+text.high, text.precip {
+  @include caps(18px, 0);
+  fill: rgba(0,0,0,0.8);
+  text-anchor: middle;
+}
+text.low {
+  @include caps(18px, 0);
+  fill: rgba(0,0,0,0.4);
+  text-anchor: middle;
+}
+text.precip {
+  alignment-baseline: hanging;
 }
 
 html, body {
@@ -25,7 +46,7 @@ html, body {
 
   #card {
     height: 512px;
-    padding: 30px;
+    padding: 40px;
 
     background-color: $sunny;
 
