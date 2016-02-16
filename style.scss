@@ -1,0 +1,53 @@
+$rainy: #43ABD4;
+$sunny: #FFEAAD;
+$cloudy: #E1E1E1;
+$precip: #D0F0FF;
+
+@mixin caps($sz, $spacing: 4px) {
+  font-family: Roboto;
+  font-weight: 300;
+  letter-spacing: $spacing;
+  font-size: $sz;
+  text-transform: uppercase;
+  text-align: center;
+
+}
+
+html, body {
+  width:100%;
+  height:100%;
+  margin:0;
+}
+#main {
+  width:512px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.5);
+  border-radius: 5px;
+
+  #card {
+    height: 512px;
+    padding: 30px;
+
+    background-color: $sunny;
+
+    display:flex;
+    flex-direction: column;
+
+    #condition {
+      @include caps(24px);
+      color: rgba(0,0,0,0.6);
+      flex: 0;
+    }
+
+    #temperature {
+      @include caps(72px);
+      color: rgba(0,0,0,0.6);
+      padding: 15px;
+      flex:0;
+    }
+
+    #chart {
+      width: 100%;
+      flex: 1;
+    }
+  }
+}
