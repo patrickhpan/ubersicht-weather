@@ -9,29 +9,30 @@ var objToNumbers = (obj, i) => {
   console.log(newObj, i)
   return newObj;
 }
-
-const STATE = window.location.search.match(/state=([^&]+)/)[1] || "ma";
-const CITY = window.location.search.match(/city=([^&]+)/)[1] || "cambridge";
+var state = window.location.search.match(/state=([^&]+)/);
+const STATE = state ? state[1] : "ma";
+var city = window.location.search.match(/city=([^&]+)/);
+const CITY = city ? city[1] : "cambridge";
 
 const replaces = [
-  [ /^snow$/ig, "it's snowy"],
-  [ /^rain$/ig, "it's rainy"],
-  [ /^clear$/ig, "clear skies"],
-  [ /^light drizzle$/ig, "lightly drizzling"],
-  [ /^light snow$/ig, "lightly snowing"]
+  [/^snow$/ig, "it's snowy"],
+  [/^rain$/ig, "it's rainy"],
+  [/^clear$/ig, "clear skies"],
+  [/^light drizzle$/ig, "lightly drizzling"],
+  [/^light snow$/ig, "lightly snowing"]
 ]
 
 var processCondition = weather => {
-    replaces.forEach(r => weather = weather.replace(r[0], r[1]))
-    return weather;
+  replaces.forEach(r => weather = weather.replace(r[0], r[1]))
+  return weather;
 }
 
 var cardColor = resp => {
   var weather = resp.current_observation.weather;
-  if(weather.match(/snow/ig)) $("#card").addClass("snowy")
-  if(weather.match(/cloud/ig) || weather.match(/overcast/ig)) $("#card").addClass("cloudy")
-  if(weather.match(/rainy/ig)) $("#card").addClass("rainy")
-  if(weather.match(/sunny/ig) || weather.match(/clear/ig)) $("#card").addClass("sunny")
+  if (weather.match(/snow/ig)) $("#card").addClass("snowy")
+  if (weather.match(/cloud/ig) || weather.match(/overcast/ig)) $("#card").addClass("cloudy")
+  if (weather.match(/rainy/ig)) $("#card").addClass("rainy")
+  if (weather.match(/sunny/ig) || weather.match(/clear/ig)) $("#card").addClass("sunny")
 }
 
 $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE + "/" + CITY + ".json", (resp) => {
@@ -43,7 +44,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
   $("#temperature").html(`${temperature}°`);
 
   $.get("http://api.wunderground.com/api/009488d0b563f9e5/forecast/q/" + STATE + "/" + CITY + ".json", (resp) => {
-    var data = resp.forecast.simpleforecast.forecastday.slice(0,3).map(x => {
+    var data = resp.forecast.simpleforecast.forecastday.slice(0, 3).map(x => {
       return {
         high: x.high.fahrenheit,
         low: x.low.fahrenheit,
@@ -88,7 +89,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       .attr({
         class: "high",
         width: BWIDTH + "%",
-        x: (d, i) => ((50 - (1-i) * XOFFSET - BWIDTH / 2) + "%"),
+        x: (d, i) => ((50 - (1 - i) * XOFFSET - BWIDTH / 2) + "%"),
         height: d => (tempToHeight(d.high) + "%"),
         y: d => ((YOFFSET - tempToHeight(d.high)) + "%"),
       })
@@ -100,7 +101,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       .attr({
         class: "low",
         width: BWIDTH + "%",
-        x: (d, i) => ((50 - (1-i) * XOFFSET - BWIDTH / 2) + "%"),
+        x: (d, i) => ((50 - (1 - i) * XOFFSET - BWIDTH / 2) + "%"),
         height: d => (tempToHeight(d.low) + "%"),
         y: d => ((YOFFSET - tempToHeight(d.low)) + "%"),
       })
@@ -111,7 +112,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       .append("text")
       .attr({
         class: "temp",
-        x: (d, i) => ((50 - (1-i) * XOFFSET) + "%"),
+        x: (d, i) => ((50 - (1 - i) * XOFFSET) + "%"),
         y: (d) => {
           var highHeight = tempToHeight(d.high);
           var lowHeight = tempToHeight(d.low);
@@ -128,15 +129,15 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       .attr({
         class: "precip",
         width: BWIDTH + "%",
-        x: (d, i) => ((50 - (1-i) * XOFFSET - BWIDTH / 2) + "%"),
+        x: (d, i) => ((50 - (1 - i) * XOFFSET - BWIDTH / 2) + "%"),
         height: d => {
           var barHeight = precipToHeight(d.precip);
           // if(barHeight < PTHRESHOLD)
           //   return 0;
           // else
-            return barHeight + "%"
+          return barHeight + "%"
         },
-        y: d => (YOFFSET +  GAP) + "%",
+        y: d => (YOFFSET + GAP) + "%",
       })
 
     svg.selectAll("text.precip")
@@ -145,7 +146,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       .append("text")
       .attr({
         class: "precip",
-        x: (d, i) => ((50 - (1-i) * XOFFSET) + "%"),
+        x: (d, i) => ((50 - (1 - i) * XOFFSET) + "%"),
         y: (d, i) => {
           console.log(d, i);
           var barHeight = precipToHeight(d.precip);
@@ -154,9 +155,9 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       })
       .text(d => d.precip + "%")
 
-    for(let i = 0; i < 3; i++) {
-      if(i == 0) var day = "today";
-      else if(i == 1) var day = "tomorrow";
+    for (let i = 0; i < 3; i++) {
+      if (i == 0) var day = "today";
+      else if (i == 1) var day = "tomorrow";
       else {
         var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         var day = days[new Date(+new Date() + 2 * 24 * 60 * 60 * 1000).getDay()];
@@ -164,7 +165,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
       svg.append("text")
         .attr({
           class: "date",
-          x: (50 - (1-i) * XOFFSET) + "%",
+          x: (50 - (1 - i) * XOFFSET) + "%",
           y: "100%"
         })
         .text(day)
