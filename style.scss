@@ -92,13 +92,13 @@ html, body {
     #temperature {
       @include caps(72px);
       color: rgba(0,0,0,0.6);
-      padding: 15px;
+      padding: 0;
       flex:1;
     }
 
     #chart {
       width: 100%;
-      flex: 4;
+      flex: 5;
     }
   }
 }
