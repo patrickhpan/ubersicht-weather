@@ -74,7 +74,7 @@ html, body {
       text-transform: uppercase;
       text-align: center;
       color: rgba(0, 0, 0, 0.6);
-      flex: 0; }
+      flex: 1; }
     #main #card #temperature {
       font-family: Roboto;
       font-weight: 300;
@@ -84,10 +84,10 @@ html, body {
       text-align: center;
       color: rgba(0, 0, 0, 0.6);
       padding: 15px;
-      flex: 0; }
+      flex: 1; }
     #main #card #chart {
       width: 100%;
-      flex: 1; }
+      flex: 4; }
 
 * {
   -webkit-touch-callout: none;

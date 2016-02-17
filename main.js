@@ -166,7 +166,7 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
         .attr({
           class: "date",
           x: (50 - (1 - i) * XOFFSET) + "%",
-          y: "100%"
+          y: "95%"
         })
         .text(day)
     }
