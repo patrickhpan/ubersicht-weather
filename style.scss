@@ -27,7 +27,7 @@ $precip: #D0F0FF;
     transition: opacity 0.25s ease-in-out;
   }
 }
-#chart:hover, #chart.clicked {
+#chart:hover{
   text.highlow {
     opacity: 1!important;
   }

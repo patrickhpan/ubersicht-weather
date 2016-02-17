@@ -5,9 +5,9 @@
   opacity: 1;
   transition: opacity 0.25s ease-in-out; }
 
-#chart:hover text.highlow, #chart.clicked text.highlow {
+#chart:hover text.highlow {
   opacity: 1 !important; }
-#chart:hover text.temp, #chart.clicked text.temp {
+#chart:hover text.temp {
   opacity: 0 !important; }
 
 rect.low {
