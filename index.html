@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
   </head>
   </head>
-  <body>
+  <body class="notready">
     <div id="main">
       <div id="card">
         <div id="condition">
@@ -16,15 +16,16 @@
         </div>
         <svg id="chart"></svg>
       </div>
-      <div id="more" class="collapsed">
+      <div id="more">
+      <!-- <div id="more" class="collapsed"> -->
         <div id="wind">
-
+          <span id="windtxt">Wind</span><span id="windval">3 MPH</span>
         </div>
         <div id="feelslike">
-
+          <span id="feelsliketxt">Feels like</span><span id="feelslikeval">31°</span>
         </div>
         <div id="humidity">
-
+          <span id="humiditytxt">Humidity</span><span id="humidityval">38%</span>
         </div>
       </div>
     </div>

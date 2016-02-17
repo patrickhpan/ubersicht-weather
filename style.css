@@ -50,12 +50,10 @@ html, body {
   background-color: #999999; }
 
 #main {
-  width: 572px;
-  height: 572px;
+  width: 512px;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
   top: 0;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
@@ -64,6 +62,7 @@ html, body {
     height: 512px;
     width: 512px;
     padding: 30px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column; }
     #main #card #condition {
@@ -88,6 +87,32 @@ html, body {
     #main #card #chart {
       width: 100%;
       flex: 5; }
+  #main #more, #main #more * {
+    cursor: pointer; }
+  #main #more.collapsed {
+    height: 30px !important;
+    box-shadow: inset 0px 50px 60px -50px; }
+    #main #more.collapsed * {
+      display: none; }
+  #main #more:not(.collapsed) {
+    padding: 40px;
+    display: flex;
+    flex-direction: column; }
+    #main #more:not(.collapsed) div {
+      flex: 1;
+      line-height: 2; }
+      #main #more:not(.collapsed) div #windtxt, #main #more:not(.collapsed) div #feelsliketxt, #main #more:not(.collapsed) div #humiditytxt {
+        float: left;
+        font-family: Roboto;
+        font-weight: 300;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.6); }
+      #main #more:not(.collapsed) div #windval, #main #more:not(.collapsed) div #feelslikeval, #main #more:not(.collapsed) div #humidityval {
+        float: right;
+        font-family: Roboto;
+        font-weight: 300;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.6); }
 
 * {
   -webkit-touch-callout: none;
@@ -101,6 +126,10 @@ html, body {
   -ms-user-select: none;
   /* IE/Edge */
   user-select: none;
-  cursor: default; }
+  cursor: default;
+  box-sizing: border-box; }
+
+body.notready {
+  display: none !important; }
 
 /*# sourceMappingURL=style.css.map */

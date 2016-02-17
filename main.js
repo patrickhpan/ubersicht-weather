@@ -39,9 +39,17 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
   cardColor(resp)
   var city = resp.current_observation.display_location.city;
   var weather = processCondition(resp.current_observation.weather);
-  var temperature = resp.current_observation.temp_f.toFixed(0);
+  var temperature = Number(resp.current_observation.temp_f).toFixed(0);
+  var windSpd = Number(resp.current_observation.wind_mph).toFixed(0);
+  var windDir = resp.current_observation.wind_dir.charAt(0);
+  var feelslike = Number(resp.current_observation.feelslike_f).toFixed(0);
+  var humidity = resp.current_observation.relative_humidity
   $("#condition").html(`${weather}<br>in ${city}`);
   $("#temperature").html(`${temperature}°`);
+  $("#windval").html(`${windSpd} mph`)
+  // $("#windval").html(`${windSpd} mph ${windDir}`)
+  $("#feelslikeval").html(`${feelslike}°`)
+  $("#humidityval").html(`${humidity}`)
 
   $.get("http://api.wunderground.com/api/009488d0b563f9e5/forecast/q/" + STATE + "/" + CITY + ".json", (resp) => {
     var data = resp.forecast.simpleforecast.forecastday.slice(0, 3).map(x => {
@@ -171,7 +179,11 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
         .text(day)
     }
 
-
+    $("body").removeClass("notready")
   })
-
 });
+
+$("#more").click(function() {
+  $(this).toggleClass("collapsed");
+  console.log(this);
+})

@@ -62,12 +62,12 @@ html, body {
 }
 
 #main {
-  width:572px;
-  height:572px;
+  width:512px;
+  // height:768px;
   position: absolute;
   left:0;
   right:0;
-  bottom:0;
+  // bottom:0;
   top:0;
   box-shadow: 0 0 50px rgba(0,0,0,0.5);
   border-radius: 5px;
@@ -77,9 +77,7 @@ html, body {
     height: 512px;
     width: 512px;
     padding: 30px;
-
-
-
+    box-sizing: border-box;
     display:flex;
     flex-direction: column;
 
@@ -101,6 +99,46 @@ html, body {
       flex: 5;
     }
   }
+
+  #more {
+    &, * {
+      cursor: pointer;
+    }
+    &.collapsed {
+      height: 30px!important;
+      box-shadow: inset 0px 50px 60px -50px;
+      * {
+        display: none;
+      }
+    }
+    &:not(.collapsed) {
+      // height: 256px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      // justify-content: center;
+      div {
+        flex: 1;
+        line-height: 2;
+        #windtxt, #feelsliketxt, #humiditytxt {
+          float: left;
+          font-family: Roboto;
+          font-weight: 300;
+          font-size: 24px;
+          color: rgba(0,0,0,0.6);
+        }
+        #windval, #feelslikeval, #humidityval {
+          float: right;
+          font-family: Roboto;
+          font-weight: 300;
+          font-size: 24px;
+          color: rgba(0,0,0,0.6);
+        }
+
+      }
+    }
+  }
+
 }
 
 * {
@@ -111,4 +149,9 @@ html, body {
   -ms-user-select: none;       /* IE/Edge */
   user-select: none;
   cursor: default;
+  box-sizing:  border-box;
+}
+
+body.notready {
+  display:none!important;
 }
