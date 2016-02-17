@@ -200,3 +200,7 @@ $("#more").click(function() {
   $(this).toggleClass("collapsed");
   console.log(this);
 })
+
+$("#chart").click(function() {
+  $(this).toggleClass("clicked")
+})
