@@ -1,8 +1,11 @@
 $rainy: #43ABD4;
 $sunny: #FFEAAD;
 $cloudy: #E1E1E1;
+$snowy: #E1E1E1;
+$night: #999999;
 
-$temp: #FFFFFF;
+$high: rgba(255,246,240,0.8);
+$low: rgba(255,255,255,1);
 $precip: #D0F0FF;
 
 @mixin caps($sz, $spacing: 4px) {
@@ -14,24 +17,26 @@ $precip: #D0F0FF;
   text-align: center;
 }
 
-rect.temp {
-  fill: $temp;
+rect.low{
+  fill: $low;
+}
+rect.high {
+  fill: $high;
 }
 rect.precip {
   fill: $precip;
 }
-text.high, text.precip {
-  @include caps(18px, 0);
-  fill: rgba(0,0,0,0.8);
+text.temp, text.precip {
+  @include caps(14px, 0);
+  fill: rgba(0,0,0,0.6);
   text-anchor: middle;
+  alignment-baseline: central;
 }
-text.low {
-  @include caps(18px, 0);
-  fill: rgba(0,0,0,0.4);
+text.date {
+  @include caps(14px, 0);
+  fill: rgba(0,0,0,0.6);
   text-anchor: middle;
-}
-text.precip {
-  alignment-baseline: hanging;
+  alignment-baseline: baseline;
 }
 
 html, body {
@@ -39,16 +44,41 @@ html, body {
   height:100%;
   margin:0;
 }
+
+#card.snowy {
+  background-color: $snowy;
+}
+#card.sunny {
+  background-color: $sunny;
+}
+#card.cloudy {
+  background-color: $cloudy;
+}
+#card.rainy {
+  background-color: $rainy;
+}
+#card.night {
+  background-color: $night;
+}
+
 #main {
-  width:512px;
+  width:572px;
+  height:572px;
+  position: absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  top:0;
   box-shadow: 0 0 50px rgba(0,0,0,0.5);
   border-radius: 5px;
+  margin:auto;
 
   #card {
     height: 512px;
-    padding: 40px;
+    width: 512px;
+    padding: 30px;
 
-    background-color: $sunny;
+
 
     display:flex;
     flex-direction: column;
@@ -71,4 +101,14 @@ html, body {
       flex: 1;
     }
   }
+}
+
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;
+  cursor: default;
 }
