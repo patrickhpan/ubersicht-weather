@@ -6,9 +6,9 @@ var tryNumber = (x) => {
 var objToNumbers = (obj, i) => {
   var newObj = {};
   Object.keys(obj).forEach(key => newObj[key] = tryNumber(obj[key]));
-  console.log(newObj, i)
   return newObj;
 }
+
 var state = window.location.search.match(/state=([^&]+)/);
 const STATE = state ? state[1] : "ma";
 var city = window.location.search.match(/city=([^&]+)/);
@@ -28,14 +28,18 @@ var processCondition = weather => {
 }
 
 var cardColor = resp => {
-  var weather = resp.current_observation.weather;
-  if (weather.match(/snow/ig)) $("#card").addClass("snowy")
-  if (weather.match(/cloud/ig) || weather.match(/overcast/ig)) $("#card").addClass("cloudy")
-  if (weather.match(/rainy/ig)) $("#card").addClass("rainy")
-  if (weather.match(/sunny/ig) || weather.match(/clear/ig)) $("#card").addClass("sunny")
+  if(resp.current_observation.icon_url.match(/nt_.+gif/ig)) $("#card").addClass("night");
+  else {
+    var weather = resp.current_observation.weather;
+    if (weather.match(/snow/ig)) $("#card").addClass("snowy")
+    if (weather.match(/cloud/ig) || weather.match(/overcast/ig)) $("#card").addClass("cloudy")
+    if (weather.match(/rainy/ig)) $("#card").addClass("rainy")
+    if (weather.match(/sunny/ig) || weather.match(/clear/ig)) $("#card").addClass("sunny")
+  }
 }
 
 $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE + "/" + CITY + ".json", (resp) => {
+  console.log(resp);
   cardColor(resp)
   var city = resp.current_observation.display_location.city;
   var weather = processCondition(resp.current_observation.weather);
@@ -47,33 +51,30 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
   $("#condition").html(`${weather}<br>in ${city}`);
   $("#temperature").html(`${temperature}°`);
   $("#windval").html(`${windSpd} mph`)
-  // $("#windval").html(`${windSpd} mph ${windDir}`)
   $("#feelslikeval").html(`${feelslike}°`)
   $("#humidityval").html(`${humidity}`)
 
   $.get("http://api.wunderground.com/api/009488d0b563f9e5/forecast/q/" + STATE + "/" + CITY + ".json", (resp) => {
+    console.log(resp);
     var data = resp.forecast.simpleforecast.forecastday.slice(0, 3).map(x => {
       return {
         high: x.high.fahrenheit,
         low: x.low.fahrenheit,
         precip: x.pop,
+        precipamt: x.qpf_allday.in + x.snow_allday.in
       }
     })
-    console.log(data);
     data = data.map(objToNumbers)
-    console.log(data);
 
 
     var sortedHighs = Array.from(data);
     sortedHighs.sort((a, b) => b.high - a.high);
     var maxTemp = sortedHighs[0].high;
-    console.log(data);
 
     var sortedLows = Array.from(data);
     sortedLows = sortedLows.sort((a, b) => a.low - b.low);
     var minTemp = Math.min(sortedLows[0].low, maxTemp - 30);
 
-    console.log(data);
 
     var svg = d3.select("#chart")
 
@@ -110,8 +111,8 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
         class: "low",
         width: BWIDTH + "%",
         x: (d, i) => ((50 - (1 - i) * XOFFSET - BWIDTH / 2) + "%"),
-        height: d => (tempToHeight(d.low) + "%"),
-        y: d => ((YOFFSET - tempToHeight(d.low)) + "%"),
+        height: d => (Math.min(tempToHeight(d.low), tempToHeight(d.high) - 5) + "%"),
+        y: d => (YOFFSET - Math.min(tempToHeight(d.low), tempToHeight(d.high) - 5) + "%"),
       })
 
     svg.selectAll("text.temp")
@@ -123,12 +124,28 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
         x: (d, i) => ((50 - (1 - i) * XOFFSET) + "%"),
         y: (d) => {
           var highHeight = tempToHeight(d.high);
-          var lowHeight = tempToHeight(d.low);
+          var lowHeight = Math.min(tempToHeight(d.low), tempToHeight(d.high) - 5);
           var avgHeight = (highHeight + lowHeight) / 2;
           return (YOFFSET - avgHeight) + "%";
         }
       })
-      .text(d => ((d.high + d.low) / 2).toFixed(0))
+      .text(d => ((d.high + d.low) / 2).toFixed(0) + "°")
+
+    svg.selectAll("text.highlow")
+      .data(data)
+      .enter()
+      .append("text")
+      .attr({
+        class: "highlow",
+        x: (d, i) => ((50 - (1 - i) * XOFFSET) + "%"),
+        y: (d) => {
+          var highHeight = tempToHeight(d.high);
+          var lowHeight = Math.min(tempToHeight(d.low), tempToHeight(d.high) - 5);
+          var avgHeight = (highHeight + lowHeight) / 2;
+          return (YOFFSET - avgHeight) + "%";
+        }
+      })
+      .text(d => `${d.high} / ${d.low}`)
 
     svg.selectAll("rect.precip")
       .data(data)
@@ -140,9 +157,6 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
         x: (d, i) => ((50 - (1 - i) * XOFFSET - BWIDTH / 2) + "%"),
         height: d => {
           var barHeight = precipToHeight(d.precip);
-          // if(barHeight < PTHRESHOLD)
-          //   return 0;
-          // else
           return barHeight + "%"
         },
         y: d => (YOFFSET + GAP) + "%",
@@ -156,7 +170,6 @@ $.get("http://api.wunderground.com/api/009488d0b563f9e5/conditions/q/" + STATE +
         class: "precip",
         x: (d, i) => ((50 - (1 - i) * XOFFSET) + "%"),
         y: (d, i) => {
-          console.log(d, i);
           var barHeight = precipToHeight(d.precip);
           return Math.max(YOFFSET + GAP + 3, (YOFFSET + GAP + barHeight / 2)) + "%";
         },

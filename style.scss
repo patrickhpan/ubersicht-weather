@@ -1,8 +1,8 @@
-$rainy: #43ABD4;
+$rainy: #4B799E;
 $sunny: #FFEAAD;
 $cloudy: #E1E1E1;
 $snowy: #E1E1E1;
-$night: #999999;
+$night: #666;
 
 $high: rgba(255,246,240,0.8);
 $low: rgba(255,255,255,1);
@@ -17,6 +17,25 @@ $precip: #D0F0FF;
   text-align: center;
 }
 
+#chart {
+  text.highlow {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+  }
+  text.temp {
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+  }
+}
+#chart:hover {
+  text.highlow {
+    opacity: 1!important;
+  }
+  text.temp {
+    opacity: 0!important;
+  }
+}
+
 rect.low{
   fill: $low;
 }
@@ -26,7 +45,7 @@ rect.high {
 rect.precip {
   fill: $precip;
 }
-text.temp, text.precip {
+text.temp, text.precip, text.highlow {
   @include caps(14px, 0);
   fill: rgba(0,0,0,0.6);
   text-anchor: middle;
@@ -104,15 +123,18 @@ html, body {
     &, * {
       cursor: pointer;
     }
+    transition: height 0.5s ease-in;
     &.collapsed {
       height: 30px!important;
-      box-shadow: inset 0px 50px 60px -50px;
+      box-shadow: inset 0px 25px 30px -25px;
       * {
         display: none;
       }
     }
     &:not(.collapsed) {
       // height: 256px;
+      box-shadow: inset 0px 10px 12px -10px;
+
       padding: 40px;
       display: flex;
       flex-direction: column;

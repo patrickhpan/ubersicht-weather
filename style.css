@@ -1,3 +1,15 @@
+#chart text.highlow {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out; }
+#chart text.temp {
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out; }
+
+#chart:hover text.highlow {
+  opacity: 1 !important; }
+#chart:hover text.temp {
+  opacity: 0 !important; }
+
 rect.low {
   fill: white; }
 
@@ -7,7 +19,7 @@ rect.high {
 rect.precip {
   fill: #D0F0FF; }
 
-text.temp, text.precip {
+text.temp, text.precip, text.highlow {
   font-family: Roboto;
   font-weight: 300;
   letter-spacing: 0;
@@ -44,10 +56,10 @@ html, body {
   background-color: #E1E1E1; }
 
 #card.rainy {
-  background-color: #43ABD4; }
+  background-color: #4B799E; }
 
 #card.night {
-  background-color: #999999; }
+  background-color: #666; }
 
 #main {
   width: 512px;
@@ -87,32 +99,35 @@ html, body {
     #main #card #chart {
       width: 100%;
       flex: 5; }
-  #main #more, #main #more * {
-    cursor: pointer; }
-  #main #more.collapsed {
-    height: 30px !important;
-    box-shadow: inset 0px 50px 60px -50px; }
-    #main #more.collapsed * {
-      display: none; }
-  #main #more:not(.collapsed) {
-    padding: 40px;
-    display: flex;
-    flex-direction: column; }
-    #main #more:not(.collapsed) div {
-      flex: 1;
-      line-height: 2; }
-      #main #more:not(.collapsed) div #windtxt, #main #more:not(.collapsed) div #feelsliketxt, #main #more:not(.collapsed) div #humiditytxt {
-        float: left;
-        font-family: Roboto;
-        font-weight: 300;
-        font-size: 24px;
-        color: rgba(0, 0, 0, 0.6); }
-      #main #more:not(.collapsed) div #windval, #main #more:not(.collapsed) div #feelslikeval, #main #more:not(.collapsed) div #humidityval {
-        float: right;
-        font-family: Roboto;
-        font-weight: 300;
-        font-size: 24px;
-        color: rgba(0, 0, 0, 0.6); }
+  #main #more {
+    transition: height 0.5s ease-in; }
+    #main #more, #main #more * {
+      cursor: pointer; }
+    #main #more.collapsed {
+      height: 30px !important;
+      box-shadow: inset 0px 25px 30px -25px; }
+      #main #more.collapsed * {
+        display: none; }
+    #main #more:not(.collapsed) {
+      box-shadow: inset 0px 10px 12px -10px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column; }
+      #main #more:not(.collapsed) div {
+        flex: 1;
+        line-height: 2; }
+        #main #more:not(.collapsed) div #windtxt, #main #more:not(.collapsed) div #feelsliketxt, #main #more:not(.collapsed) div #humiditytxt {
+          float: left;
+          font-family: Roboto;
+          font-weight: 300;
+          font-size: 24px;
+          color: rgba(0, 0, 0, 0.6); }
+        #main #more:not(.collapsed) div #windval, #main #more:not(.collapsed) div #feelslikeval, #main #more:not(.collapsed) div #humidityval {
+          float: right;
+          font-family: Roboto;
+          font-weight: 300;
+          font-size: 24px;
+          color: rgba(0, 0, 0, 0.6); }
 
 * {
   -webkit-touch-callout: none;
